@@ -2,10 +2,10 @@ import config
 import logging
 from aiogram import Bot, Dispatcher, types, F
 import asyncio
-from handlers import common, carrer_choice
+from handlers import common, carrer_choice, gpt_chat
 
 async def main():
-    TOKEN_API = config.TG_TOKEN
+    TOKEN_API = config.TOKEN_TG
 
     logging.basicConfig(level=logging.INFO)
 
@@ -14,6 +14,7 @@ async def main():
 
     dp.include_router(carrer_choice.router)
     dp.include_router(common.router)
+    dp.include_router(gpt_chat.router)
 
     await dp.start_polling(bot)
 

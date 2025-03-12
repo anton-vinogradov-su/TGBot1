@@ -41,7 +41,6 @@ async def prof_chosen(message: types.Message, state: FSMContext):
 @router.message(CarrerChoice.job)
 async def prof_incorrect(message: types.Message, state: FSMContext):
     await message.answer('Occupation again: ', reply_markup=make_row_kayboard(availablie_jobs))
-#    await state.set_state(CarrerChoice.job)
 
 
 @router.message(CarrerChoice.grade, F.text.in_(availablie_grades))
@@ -55,4 +54,3 @@ async def prof_chosen1(message: types.Message, state: FSMContext):
 @router.message(CarrerChoice.grade)
 async def grade_incorrect(message: types.Message, state: FSMContext):
     await message.answer('Level again: ', reply_markup=make_row_kayboard(availablie_grades))
-#    await state.set_state(CarrerChoice.grade)
