@@ -12,6 +12,7 @@ router.include_routers(inline_router)
 
 
 # /start
+@router.message(F.text == 'Enough')
 @router.message(F.text == 'Закончить')
 @router.message(Command('start'))
 async def start_command(message: types.Message):

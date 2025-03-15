@@ -15,7 +15,7 @@ celebrities = {'Джон Леннон',
                }
 
 
-# Создаём два состояния для FSM
+# make common
 class ChatGPTState(StatesGroup):
     waiting_for_celebrity = State()  # Состояние для выбора персонажа
     waiting_for_celebrity_prompt = State()  # Состояние для ожидания вопроса
@@ -24,6 +24,7 @@ class ChatGPTState(StatesGroup):
 # /talk - начало диалога
 @router.message(Command('talk'))
 async def talk_init(message: types.Message, state: FSMContext):
+    await state.clear()
     await message.answer_photo(types.FSInputFile('assets/celebrity.png'))
     await message.answer(f'{message.chat.first_name}! Выбери известную личность для общения:',
                          reply_markup=make_row_kayboard(celebrities))
