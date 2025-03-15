@@ -1,11 +1,13 @@
 from aiogram import types
 
 button_1 = types.KeyboardButton(text='/start')
-button_2 = types.KeyboardButton(text='/prof')
-button_3 = types.KeyboardButton(text='/fox')
-button_4 = types.KeyboardButton(text='/gpt')
-button_5 = types.KeyboardButton(text='/stop')
-button_6 = types.KeyboardButton(text='/none')
+button_2 = types.KeyboardButton(text='/fox')
+button_3 = types.KeyboardButton(text='/chatgpt')
+button_4 = types.KeyboardButton(text='/random')
+button_5 = types.KeyboardButton(text='/talk')
+button_6 = types.KeyboardButton(text='/quiz')
+# button_6 = types.KeyboardButton(text='/prof')
+
 
 keyboard_1 = [
     [button_1, button_2],
