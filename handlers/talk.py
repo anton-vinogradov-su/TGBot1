@@ -3,7 +3,7 @@ from aiogram.filters.command import Command
 from utils.gpt_service import ChatGPTService
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from keyboards.prof_keyboard import make_row_kayboard
+from keyboards.prof_keyboard import make_row_keyboard
 
 router = Router()
 gpt_service = ChatGPTService()
@@ -27,7 +27,7 @@ async def talk_init(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer_photo(types.FSInputFile('assets/celebrity.png'))
     await message.answer(f'{message.chat.first_name}! Выбери известную личность для общения:',
-                         reply_markup=make_row_kayboard(celebrities))
+                         reply_markup=make_row_keyboard(celebrities))
     await state.set_state(ChatGPTState.waiting_for_celebrity)
 
 
@@ -45,5 +45,5 @@ async def talk_set_celebrity(message: types.Message, state: FSMContext):
 async def talk_chatgpt_answer(message: types.Message, state: FSMContext):
     gpt_service.add_user_message(message.text)
     response = gpt_service.get_response()
-    await message.answer(f"💬 {response}", reply_markup=make_row_kayboard({'Закончить'}))
+    await message.answer(f"💬 {response}", reply_markup=make_row_keyboard({'Закончить'}))
     await state.clear()

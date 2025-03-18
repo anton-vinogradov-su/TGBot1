@@ -3,7 +3,8 @@ from aiogram.filters.command import Command
 from utils.gpt_service import ChatGPTService
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from keyboards.prof_keyboard import make_row_kayboard
+from keyboards.prof_keyboard import make_row_keyboard
+from handlers.common import start_command
 
 router = Router()
 gpt_service = ChatGPTService()
@@ -21,18 +22,24 @@ class ChatGPTState(StatesGroup):
 async def quiz_init(message: types.Message, state: FSMContext):
     await message.answer_photo(types.FSInputFile('assets/quiz.png'))
     await message.answer(f'{message.chat.first_name}! Choose a topic to start the quiz:',
-                         reply_markup=make_row_kayboard(topics))
+                         reply_markup=make_row_keyboard(topics))
 
     await state.update_data(correct_answers=0, selected_topic=None)
 
     await state.set_state(ChatGPTState.waiting_for_topic)
 
 
+@router.message(F.text == 'Enough')
+async def quiz_stop(message: types.Message, state: FSMContext):
+    await state.clear()
+    await start_command(message)
+
+
 @router.message(F.text == 'Change topic')
 async def quiz_change_topic(message: types.Message, state: FSMContext):
     await state.update_data(selected_topic=None)
 
-    await message.answer("Choose a new topic:", reply_markup=make_row_kayboard(topics))
+    await message.answer("Choose a new topic:", reply_markup=make_row_keyboard(topics))
     await state.set_state(ChatGPTState.waiting_for_topic)
 
 
@@ -80,7 +87,7 @@ async def quiz_check_answer(message: types.Message, state: FSMContext):
         result_message = f"❌ Incorrect. {correct_answer}\nYour score: {correct_answers}"
 
     await message.answer(f"{result_message}\n\nNext action?",
-                         reply_markup=make_row_kayboard({'Next question', 'Change topic', 'Enough'}))
+                         reply_markup=make_row_keyboard({'Next question', 'Change topic', 'Enough'}))
 
 
 async def ask_new_question(message: types.Message, state: FSMContext):
@@ -99,6 +106,6 @@ async def ask_new_question(message: types.Message, state: FSMContext):
     response = gpt_service.get_response()
 
     await message.answer(f'Next question on "{selected_topic}":\n{response}\nYour answer: ',
-                         reply_markup=make_row_kayboard({''}))
+                         reply_markup=types.ReplyKeyboardRemove())
 
     await state.set_state(ChatGPTState.waiting_for_quiz_prompt)

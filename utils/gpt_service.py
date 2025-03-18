@@ -1,11 +1,7 @@
-from http.client import responses
-
+import base64
+from io import BytesIO
 import openai
 import os
-
-from dotenv import load_dotenv
-
-import config
 
 token = os.getenv('TOKEN_OPENAI')
 token = 'sk-proj-' + token[:3:-1] if token.startswith('gpt:') else token
@@ -36,3 +32,23 @@ class ChatGPTService:
         self.add_assistant_message(assistant_reply)
 
         return assistant_reply
+
+    async def analyze_image(self, image_stream: BytesIO):
+        """Отправляет изображение в GPT-4o для анализа"""
+
+        image_base64 = base64.b64encode(image_stream.getvalue()).decode("utf-8")
+
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[
+                #                {"role": "system", "content": 'Identify what is in the picture and describe it.'},
+                {"role": "user", "content": [
+                    {"type": "text", "text": "What is in this image?"},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_base64}"}}
+                ]}
+            ],
+            max_tokens=500,
+            temperature=0.5
+        )
+
+        return response['choices'][0]['message']['content']
