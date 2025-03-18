@@ -1,3 +1,4 @@
+from aiogram.exceptions import TelegramAPIError
 import config
 import logging
 import asyncio
@@ -25,8 +26,12 @@ async def main():
 
     #    dp.include_router(carrer_choice.router)
 
-    await dp.start_polling(bot)
-
+    while True:
+        try:
+            await dp.start_polling(bot)
+        except TelegramAPIError as e:
+            print(f"Error: {e}. Restarting bot...")
+            await asyncio.sleep(5)
 
 if __name__ == '__main__':
     asyncio.run(main())
