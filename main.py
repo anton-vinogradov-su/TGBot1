@@ -3,7 +3,7 @@ import logging
 import asyncio
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.fsm.storage.memory import MemoryStorage
-from handlers import common, talk, quiz, gpt_chat, random_fact
+from handlers import common, talk, quiz, gpt_chat, random_fact, translation
 
 
 async def main():
@@ -20,6 +20,7 @@ async def main():
     dp.include_router(gpt_chat.router)
     dp.include_router(talk.router)
     dp.include_router(quiz.router)
+    dp.include_router(translation.router)
 
     #    dp.include_router(carrer_choice.router)
 

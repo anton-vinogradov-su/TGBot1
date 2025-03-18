@@ -7,9 +7,6 @@ router = Router()
 
 gpt_service = ChatGPTService()
 
-# gpt_service.set_system_message('Ты лучший hr-менеджер. Задавай профильные вопросы для соискателей')
-
-
 # /random
 @router.message(F.text == 'Хочу ещё факт')
 @router.message(Command('random'))
