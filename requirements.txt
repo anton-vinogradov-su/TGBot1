@@ -28,7 +28,7 @@ Jinja2==3.1.6
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 jupyter_client==8.6.3
-jupyter_core==5.7.2
+jupyter_core==5.8.1
 jupyterlab_pygments==0.3.0
 magic-filter==1.0.12
 MarkupSafe==3.0.2
@@ -67,7 +67,7 @@ tornado==6.5.5
 tqdm==4.67.1
 traitlets==5.14.3
 typing_extensions==4.12.2
-urllib3==2.5.0
+urllib3==2.6.3
 wcwidth==0.2.13
 webencodings==0.5.1
 yarg==0.1.9
