@@ -9,3 +9,5 @@ Commands:
 - /quiz - simple quiz
 - /translation - translation from any language to English
 - /image = image recognition
+
+python 3.10
